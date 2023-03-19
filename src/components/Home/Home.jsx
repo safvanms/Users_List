@@ -358,21 +358,22 @@ export default function Home() {
                 <h2><PersonIcon color='primary' style={{fontSize:"30px"}}/>{data.name}</h2>
                 <h5><FingerprintIcon style={{fontSize:"20px"}}/> {data.id}</h5>
                 <p>Gender : {data.gender}</p>
-                <p>Transportation : {data.vehicles}</p>
+                <p>Transportation : {data.vehicles ? data.vehicles : "By Walk" }</p>
                 <div className="button-group">
                   <Button
                     color="primary"
-                    variant="outlined"
+                    variant="contained"
                     onClick={() => handleEdit(data.id)}
-                  >
-                    <BorderColorOutlinedIcon />
+                    endIcon={ <BorderColorOutlinedIcon />}
+                  >Edit
+                   
                   </Button>
                   <Button
                     color="secondary"
                     variant="contained"
                     onClick={() => handleDelete(data.id)}
-                  >
-                    <DeleteOutlineRoundedIcon />
+                    endIcon={<DeleteOutlineRoundedIcon />}
+                  >Delete
                   </Button>
                 </div>
               </div>

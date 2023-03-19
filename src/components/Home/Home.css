@@ -1,24 +1,23 @@
-
 .user-form {
   display: flex;
   flex-direction: column;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
   padding: 10px;
   border-radius: 5px;
   background-color: #fff;
 }
 
-
 .section {
-  padding: 10px ;
+  padding: 10px;
 }
-
 
 .header {
   display: flex;
   justify-content: center;
   align-items: center;
- padding: 20px 0px 20px 0px;
+  padding: 20px 0px 20px 0px;
 }
 
 .submit,
@@ -26,34 +25,47 @@
   width: 100%;
 }
 
-.user-page{
-  max-width: 300px;
+.user-page {
+  width: 300px;
   height: 100%;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
   padding: 15px;
-  margin: 10px 0px 10px 0px;
   border-radius: 10px;
   background-color: #fff;
 }
 
-.user-page:hover{
-  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+.user-page>:nth-child(3),
+.user-page>:nth-child(4){
+  font-size: 15px;
+  margin: 0px 0px 10px 0px}
+
+
+.user-page:hover {
+  box-shadow: rgb(78, 118, 163) 0px 0px 0px 3px;
 }
 
-.button-group{
+.button-group {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
 
-.add-user-btn{
+.button-group>Button{
+  border-radius:7px ;
+}
+
+.add-user-btn {
   padding: 20px 0px 20px 0px;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: sticky;
+  top: 0;
 }
 
-.users-list{
+.users-list {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,7 +73,7 @@
   gap: 15px;
 }
 
-.bg-form{
+.bg-form {
   background-color: rgb(39, 77, 108);
   border-radius: 7px;
 }
