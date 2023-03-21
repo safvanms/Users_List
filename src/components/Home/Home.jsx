@@ -17,11 +17,9 @@ import {
 import TextField from '@material-ui/core/TextField/'
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded'
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined'
-import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
-import PersonIcon from '@mui/icons-material/Person';
-import FingerprintIcon from '@mui/icons-material/Fingerprint';
-
-
+import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined'
+import PersonIcon from '@mui/icons-material/Person'
+import FingerprintIcon from '@mui/icons-material/Fingerprint'
 
 export default function Home() {
   const [formValues, setFormValues] = useState({
@@ -33,6 +31,7 @@ export default function Home() {
   const [editID, setEditID] = useState(null)
   const [open, setOpen] = useState(false)
   const [addUser, setAddUser] = useState(false)
+  const [deletedShow, setDeletedShow] = useState(false)
 
   const handleChange = (event) => {
     const { name, checked, value } = event.target
@@ -65,6 +64,11 @@ export default function Home() {
   const handleClose = () => {
     setOpen(false)
     setAddUser(false)
+    setDeletedShow(false)
+  }
+
+  const handleDeletedShow = () => {
+    setDeletedShow((prevState) => !prevState)
   }
 
   const handleEdit = (id) => {
@@ -101,46 +105,77 @@ export default function Home() {
   }
 
   const handleDelete = (id) => {
-	const updatedDatas = datas.map((data) => {
-	  if (data.id === id) {
-		return { ...data, deleted: true }
-	  } else {
-		return data
-	  }
-	})
-	setDatas(updatedDatas)
+    const updatedDatas = datas.map((data) => {
+      if (data.id === id) {
+        return { ...data, deleted: true }
+      } else {
+        return data
+      }
+    })
+    setDatas(updatedDatas)
+  }
+
+  const handleRecover = (id) => {
+    const updatedDatas = datas.map((data) => {
+      if (data.id === id) {
+        return { ...data, deleted: false }
+      } else {
+        return data
+      }
+    })
+    setDatas(updatedDatas)
+    setDeletedShow(false)
+  }
+
+  const handleRemove = (id) => {
+    if (
+      window.confirm(
+        'Are you sure ! do you want to delete this from your database?',
+      )
+    ) {
+      const updatedData = datas.filter((data) => data.id !== id)
+      setDatas(updatedData)
+    } else {
+    }
   }
 
   const visibleDatas = datas.filter((data) => !data.deleted)
-
+  const deletedUsers = datas.filter((data) => data.deleted)
 
   useEffect(() => {
-	const storedData = localStorage.getItem('data')
-	if (storedData) {
-	  setDatas(JSON.parse(storedData))
-	}
+    const storedData = localStorage.getItem('data')
+    if (storedData) {
+      setDatas(JSON.parse(storedData))
+    }
   }, [])
 
-  
   useEffect(() => {
-	localStorage.setItem('data', JSON.stringify(datas))
-	console.log('Data stored in localStorage:', JSON.stringify(datas))
+    localStorage.setItem('data', JSON.stringify(datas))
+    console.log('Data stored in localStorage:', JSON.stringify(datas))
   }, [datas])
-
-
 
   return (
     <div>
       <div className="add-user-btn">
-        <Button variant="contained" endIcon={<PersonAddAltOutlinedIcon/>} style={{width:"120px",height:"40px"}} color="primary" onClick={handleOpen}>
+        <Button
+          variant="contained"
+          endIcon={<PersonAddAltOutlinedIcon />}
+          style={{ width: '120px', height: '40px' }}
+          color="primary"
+          onClick={handleOpen}
+        >
           add user
         </Button>
       </div>
-      <Dialog  open={addUser} onClose={handleClose}>
-        <DialogContent >
-          <Grid container className='bg-form'>
+      <Dialog open={addUser} onClose={handleClose}>
+        <DialogContent>
+          <Grid container className="bg-form">
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <Typography variant="h4" className="header" style={{color:"white"}}>
+              <Typography
+                variant="h4"
+                className="header"
+                style={{ color: 'white' }}
+              >
                 Add a User
               </Typography>
             </Grid>
@@ -233,7 +268,7 @@ export default function Home() {
                     variant="contained"
                     color="primary"
                     type="submit"
-					onClick={handleClose}
+                    onClick={handleClose}
                   >
                     Submit
                   </Button>
@@ -246,9 +281,13 @@ export default function Home() {
 
       <Dialog open={open} onClose={handleClose}>
         <DialogContent>
-          <Grid container className='bg-form'>
+          <Grid container className="bg-form">
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <Typography variant="h4" className="header" style={{color:"white"}}>
+              <Typography
+                variant="h4"
+                className="header"
+                style={{ color: 'white' }}
+              >
                 Edit User
               </Typography>
             </Grid>
@@ -355,31 +394,78 @@ export default function Home() {
         {visibleDatas
           ? visibleDatas.map((data) => (
               <div key={data.id} className="user-page">
-                <h2><PersonIcon color='primary' style={{fontSize:"30px"}}/>{data.name}</h2>
-                <h5><FingerprintIcon style={{fontSize:"20px"}}/> {data.id}</h5>
+                <h2>
+                  <PersonIcon color="primary" style={{ fontSize: '30px' }} />
+                  {data.name}
+                </h2>
+                <h5>
+                  <FingerprintIcon style={{ fontSize: '20px' }} /> {data.id}
+                </h5>
                 <p>Gender : {data.gender}</p>
-                <p>Transportation : {data.vehicles ? data.vehicles : "By Walk" }</p>
+                <p>
+                  Transportation : {data.vehicles ? data.vehicles : 'By Walk'}
+                </p>
                 <div className="button-group">
                   <Button
                     color="primary"
                     variant="contained"
                     onClick={() => handleEdit(data.id)}
-                    endIcon={ <BorderColorOutlinedIcon />}
-                  >Edit
-                   
+                    endIcon={<BorderColorOutlinedIcon />}
+                  >
+                    Edit
                   </Button>
                   <Button
                     color="secondary"
                     variant="contained"
                     onClick={() => handleDelete(data.id)}
                     endIcon={<DeleteOutlineRoundedIcon />}
-                  >Delete
+                  >
+                    Delete
                   </Button>
                 </div>
               </div>
             ))
           : null}
       </div>
+      {deletedUsers.length === 0 ? (
+        ''
+      ) : (
+        <div className="deleted-show">
+          <Button onClick={handleDeletedShow} variant="contained">
+            Deleted Users
+          </Button>
+        </div>
+      )}
+      <Dialog open={deletedShow} onClose={handleClose}>
+        <DialogContent>
+          <div
+            style={{ display: 'flex', justifyContent: 'flex-end', margin: '0' }}
+          ></div>
+          <div className="deleted-users-list">
+            {deletedUsers?.map((user) => (
+              <div key={user.id} className="deleted-user">
+                <p>id:{user.id}</p>
+                <h5>{user.name}</h5>
+                <Button
+                  onClick={() => handleRecover(user.id)}
+                  variant="contained"
+                  color="primary"
+                >
+                  Recover
+                </Button>
+                <Button
+                  onClick={() => handleRemove(user.id)}
+                  variant="contained"
+                  color="secondery"
+                >
+                  Delete
+                </Button>
+              </div>
+            ))}
+            {deletedUsers.length === 0 && <h1>No deleted Users </h1>}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
